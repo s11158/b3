@@ -1,0 +1,16 @@
+name = "b3-short"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+# KV-хранилище (база ссылок). id подставить после создания неймспейса:
+#   npx wrangler kv namespace create LINKS
+kv_namespaces = [
+  { binding = "LINKS", id = "REPLACE_WITH_KV_NAMESPACE_ID" }
+]
+
+# Маршрут: весь трафик b3.gg обрабатывает Worker.
+# zone_name требует, чтобы домен b3.gg был добавлен в Cloudflare.
+routes = [
+  { pattern = "b3.gg/*", zone_name = "b3.gg" },
+  { pattern = "www.b3.gg/*", zone_name = "b3.gg" }
+]
