@@ -31,13 +31,17 @@
       background: linear-gradient(135deg, #7c5cff, #29d0ff);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
+    .logo .gg-slot {
+      display: inline-block; position: relative;
+      width: 2em; height: 0.74em; vertical-align: baseline;
+    }
     .logo .gg {
-      display: inline-block; width: 2.25em; text-align: left;
-      padding: 0.15em 0.35em 0.65em 0.4em; margin: 0 0 -0.55em -0.4em;
-      transform-origin: center;
+      position: absolute; left: 0; top: 0; line-height: 1; white-space: nowrap;
+      padding: 0 0.35em 0.55em 0.4em; margin-left: -0.4em;
       background: linear-gradient(135deg, #7c5cff, #29d0ff);
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent; color: transparent;
+      transform-origin: left top;
       transition: opacity .3s ease-in-out, transform .3s ease-in-out, filter .3s ease-in-out;
     }
     .headline {
@@ -90,7 +94,7 @@
 </head>
 <body>
   <div class="card">
-    <div class="logo">b3.<span class="gg" id="gg">gg</span></div>
+    <div class="logo">b3.<span class="gg-slot"><span class="gg" id="gg">gg</span></span></div>
     <h1 class="headline" id="headline">Ultra-short links</h1>
     <p class="sub" id="sub">Not just short — only 1–2 characters</p>
     <div class="guarantee" id="guarantee">Guaranteed 1–2 character code — couldn't be shorter</div>
