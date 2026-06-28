@@ -16,17 +16,41 @@
       color: #f5f5f7;
       padding: 24px;
     }
-    .card { width: 100%; max-width: 520px; text-align: center; }
+    .card { width: 100%; max-width: 560px; text-align: center; }
     .logo {
-      font-size: clamp(48px, 12vw, 84px);
+      font-size: clamp(64px, 16vw, 120px);
       font-weight: 800;
       letter-spacing: -0.04em;
-      line-height: 1.25;
+      line-height: 1.15;
       padding-bottom: 0.12em;
       background: linear-gradient(135deg, #7c5cff, #29d0ff);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .sub { opacity: .6; margin-bottom: 28px; font-size: 15px; }
+    .headline {
+      font-size: clamp(26px, 6vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-top: -4px;
+    }
+    .sub { opacity: .65; margin-top: 12px; font-size: 17px; line-height: 1.5; }
+    .sub b { color: #29d0ff; font-weight: 700; }
+    .example {
+      margin: 22px auto 28px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      flex-wrap: wrap; font-size: 14px;
+    }
+    .example .long {
+      background: #15151f; border: 1px solid #2a2a40; border-radius: 10px;
+      padding: 8px 12px; color: #8a8a9a; max-width: 230px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .example .arrow { color: #7c5cff; font-size: 20px; }
+    .example .shorty {
+      background: linear-gradient(135deg, rgba(124,92,255,.18), rgba(41,208,255,.18));
+      border: 1px solid #7c5cff; border-radius: 10px;
+      padding: 8px 14px; color: #f5f5f7; font-weight: 700;
+    }
     .row { display: flex; gap: 10px; }
     input[type=url] {
       flex: 1; min-width: 0;
@@ -56,7 +80,14 @@
 <body>
   <div class="card">
     <div class="logo">b3.gg</div>
-    <div class="sub">Вставь любую ссылку — получишь короткую</div>
+    <h1 class="headline">Сервис коротких ссылок</h1>
+    <p class="sub">Вставь длинную ссылку — получишь короткую вида <b>b3.gg/x</b></p>
+
+    <div class="example">
+      <span class="long">site.com/very/long/path?id=123</span>
+      <span class="arrow">→</span>
+      <span class="shorty">b3.gg/a</span>
+    </div>
 
     <form id="f" class="row">
       <input id="u" type="url" placeholder="https://example.com/очень/длинный/адрес" required />
