@@ -18,8 +18,10 @@ const K = ALPHABET.length;          // 62
 const MAX_LEN = 2;                  // максимальная длина кода
 const POOL = K + K * K;             // 62 + 3844 = 3906 слотов
 
-// origin для главного сайта (GitHub Pages репозитория s11158/b3)
-const ORIGIN = "https://s11158.github.io/b3";
+// origin для главного сайта. Контент b3 живёт в репо s11158/b3, но apex-репо
+// s11158.github.io привязан к домену tlnt.ae, поэтому канонический адрес —
+// tlnt.ae/b3 (github.io/b3 редиректит сюда). Берём напрямую, без редиректа.
+const ORIGIN = "https://tlnt.ae/b3";
 
 // пути, которые НИКОГДА не считаются кодом (всегда идут на сайт/в API)
 const RESERVED = new Set([
