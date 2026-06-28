@@ -22,7 +22,7 @@
     .card { width: 100%; max-width: 560px; text-align: center; }
 
     .logo {
-      font-family: 'Manrope', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: clamp(72px, 17vw, 132px);
       font-weight: 800;
       letter-spacing: -0.05em;
@@ -50,24 +50,6 @@
       color: #29d0ff; font-size: 14px; font-weight: 700;
     }
     .guarantee::before { content: "✓"; font-size: 15px; }
-
-    .example {
-      margin: 40px auto 8px;
-      display: flex; align-items: center; justify-content: center; gap: 14px;
-      flex-wrap: wrap; font-size: 14px;
-    }
-    .example .long {
-      background: #15151f; border: 1px solid #2a2a40; border-radius: 10px;
-      padding: 9px 13px; color: #8a8a9a; max-width: 240px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .example .arrow { color: #7c5cff; font-size: 22px; }
-    [dir=rtl] .example .arrow { transform: scaleX(-1); }
-    .example .shorty {
-      background: linear-gradient(135deg, rgba(124,92,255,.18), rgba(41,208,255,.18));
-      border: 1px solid #7c5cff; border-radius: 10px;
-      padding: 9px 15px; color: #f5f5f7; font-weight: 700;
-    }
 
     .row { display: flex; gap: 12px; margin-top: 40px; }
     input[type=url] {
@@ -103,12 +85,6 @@
     <h1 class="headline" id="headline">Ultra-short links</h1>
     <p class="sub" id="sub">Not just short — only 1–2 characters</p>
     <div class="guarantee" id="guarantee">Guaranteed 1–2 character code — couldn't be shorter</div>
-
-    <div class="example">
-      <span class="long">site.com/very/long/path?id=123</span>
-      <span class="arrow">→</span>
-      <span class="shorty">b3.gg/a</span>
-    </div>
 
     <form id="f" class="row">
       <input id="u" type="url" placeholder="https://example.com/long/address" required />
