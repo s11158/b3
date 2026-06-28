@@ -31,7 +31,7 @@
       background: linear-gradient(135deg, #7c5cff, #29d0ff);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .logo .gg { display: inline-block; transition: opacity .25s ease; }
+    .logo .gg { display: inline-block; transition: opacity .12s ease; }
     .headline {
       font-family: 'Manrope', sans-serif;
       font-size: clamp(28px, 6vw, 44px);
@@ -189,12 +189,17 @@
       "'Comfortaa', sans-serif",
     ];
     const gg = document.getElementById('gg');
+    const logoEl = document.querySelector('.logo');
     if (gg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       let gi = 0;
       setInterval(() => {
         gi = (gi + 1) % GG_FONTS.length;
-        gg.style.opacity = '0';
-        setTimeout(() => { gg.style.fontFamily = GG_FONTS[gi]; gg.style.opacity = '1'; }, 240);
+        gg.style.opacity = '0.2';
+        if (logoEl && logoEl.animate) logoEl.animate(
+          [{ transform: 'translateX(0)' }, { transform: 'translateX(-7px)' }, { transform: 'translateX(7px)' }, { transform: 'translateX(0)' }],
+          { duration: 340, easing: 'ease-in-out' }
+        );
+        setTimeout(() => { gg.style.fontFamily = GG_FONTS[gi]; gg.style.opacity = '1'; }, 110);
       }, 1500);
     }
   </script>
