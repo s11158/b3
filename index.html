@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>b3.gg — сервис коротких ссылок</title>
+  <title>b3.gg — URL shortener</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
@@ -52,6 +52,7 @@
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .example .arrow { color: #7c5cff; font-size: 22px; }
+    [dir=rtl] .example .arrow { transform: scaleX(-1); }
     .example .shorty {
       background: linear-gradient(135deg, rgba(124,92,255,.18), rgba(41,208,255,.18));
       border: 1px solid #7c5cff; border-radius: 10px;
@@ -89,8 +90,8 @@
 <body>
   <div class="card">
     <div class="logo">b3.gg</div>
-    <h1 class="headline">Сервис коротких ссылок</h1>
-    <p class="sub">Вставьте длинную ссылку — получите короткую</p>
+    <h1 class="headline" id="headline">URL shortener</h1>
+    <p class="sub" id="sub">Paste a long link — get a short one</p>
 
     <div class="example">
       <span class="long">site.com/very/long/path?id=123</span>
@@ -99,21 +100,37 @@
     </div>
 
     <form id="f" class="row">
-      <input id="u" type="url" placeholder="https://example.com/длинный/адрес" required />
-      <button id="b" type="submit">Сократить</button>
+      <input id="u" type="url" placeholder="https://example.com/long/address" required />
+      <button id="b" type="submit">Shorten</button>
     </form>
 
     <div class="err" id="err"></div>
 
     <div class="result" id="res">
       <a id="link" href="#" target="_blank" rel="noopener"></a>
-      <button class="copy" id="copy" type="button">Копировать</button>
+      <button class="copy" id="copy" type="button">Copy</button>
     </div>
 
     <div class="stats" id="stats"></div>
   </div>
 
   <script>
+    const I18N = {
+      en: { title:"b3.gg — URL shortener", headline:"URL shortener", sub:"Paste a long link — get a short one", placeholder:"https://example.com/long/address", shorten:"Shorten", copy:"Copy", copied:"Copied", pNew:"issuing new", pRecycle:"recycling old codes", stats:(n,p,ph)=>`Issued ${n} of ${p} short codes · mode: ${ph}`, err:{ empty:"Enter a link", too_long:"Link is too long", invalid_url:"Invalid link", bad_scheme:"Only http:// and https://", self_link:"Can't shorten a b3.gg link", rate_limited:"Daily limit reached, try again tomorrow", bad_json:"Request error", network:"Network unavailable", generic:"Error" } },
+      ru: { title:"b3.gg — сервис коротких ссылок", headline:"Сервис коротких ссылок", sub:"Вставьте длинную ссылку — получите короткую", placeholder:"https://example.com/длинный/адрес", shorten:"Сократить", copy:"Копировать", copied:"Скопировано", pNew:"выдача новых", pRecycle:"переработка старых кодов", stats:(n,p,ph)=>`Выдано ${n} из ${p} коротких кодов · режим: ${ph}`, err:{ empty:"Введите ссылку", too_long:"Ссылка слишком длинная", invalid_url:"Некорректная ссылка", bad_scheme:"Только http:// и https://", self_link:"Нельзя сокращать ссылку на b3.gg", rate_limited:"Лимит на сегодня исчерпан, попробуйте завтра", bad_json:"Ошибка запроса", network:"Сеть недоступна", generic:"Ошибка" } },
+      es: { title:"b3.gg — acortador de enlaces", headline:"Acortador de enlaces", sub:"Pega un enlace largo y obtén uno corto", placeholder:"https://ejemplo.com/direccion/larga", shorten:"Acortar", copy:"Copiar", copied:"Copiado", pNew:"emisión de nuevos", pRecycle:"reutilización de antiguos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos cortos · modo: ${ph}`, err:{ empty:"Introduce un enlace", too_long:"El enlace es demasiado largo", invalid_url:"Enlace no válido", bad_scheme:"Solo http:// y https://", self_link:"No se puede acortar un enlace de b3.gg", rate_limited:"Límite diario alcanzado, inténtalo mañana", bad_json:"Error de solicitud", network:"Red no disponible", generic:"Error" } },
+      de: { title:"b3.gg — Link-Kürzer", headline:"Link-Kürzer", sub:"Langen Link einfügen — kurzen erhalten", placeholder:"https://beispiel.com/lange/adresse", shorten:"Kürzen", copy:"Kopieren", copied:"Kopiert", pNew:"neue Vergabe", pRecycle:"Wiederverwendung alter Codes", stats:(n,p,ph)=>`${n} von ${p} Kurzcodes vergeben · Modus: ${ph}`, err:{ empty:"Link eingeben", too_long:"Link ist zu lang", invalid_url:"Ungültiger Link", bad_scheme:"Nur http:// und https://", self_link:"b3.gg-Link kann nicht gekürzt werden", rate_limited:"Tageslimit erreicht, morgen erneut versuchen", bad_json:"Anfragefehler", network:"Netzwerk nicht verfügbar", generic:"Fehler" } },
+      fr: { title:"b3.gg — raccourcisseur de liens", headline:"Raccourcisseur de liens", sub:"Collez un lien long — obtenez un lien court", placeholder:"https://exemple.com/adresse/longue", shorten:"Raccourcir", copy:"Copier", copied:"Copié", pNew:"attribution de nouveaux", pRecycle:"réutilisation des anciens", stats:(n,p,ph)=>`${n} sur ${p} codes courts attribués · mode : ${ph}`, err:{ empty:"Entrez un lien", too_long:"Le lien est trop long", invalid_url:"Lien invalide", bad_scheme:"Uniquement http:// et https://", self_link:"Impossible de raccourcir un lien b3.gg", rate_limited:"Limite quotidienne atteinte, réessayez demain", bad_json:"Erreur de requête", network:"Réseau indisponible", generic:"Erreur" } },
+      pt: { title:"b3.gg — encurtador de links", headline:"Encurtador de links", sub:"Cole um link longo — receba um curto", placeholder:"https://exemplo.com/endereco/longo", shorten:"Encurtar", copy:"Copiar", copied:"Copiado", pNew:"emissão de novos", pRecycle:"reutilização de antigos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos curtos · modo: ${ph}`, err:{ empty:"Insira um link", too_long:"O link é muito longo", invalid_url:"Link inválido", bad_scheme:"Apenas http:// e https://", self_link:"Não é possível encurtar um link b3.gg", rate_limited:"Limite diário atingido, tente amanhã", bad_json:"Erro na solicitação", network:"Rede indisponível", generic:"Erro" } },
+      zh: { title:"b3.gg — 短链接服务", headline:"短链接服务", sub:"粘贴长链接，获取短链接", placeholder:"https://example.com/很长的/地址", shorten:"缩短", copy:"复制", copied:"已复制", pNew:"分配新码", pRecycle:"回收旧码", stats:(n,p,ph)=>`已分配 ${n} / ${p} 个短码 · 模式：${ph}`, err:{ empty:"请输入链接", too_long:"链接太长", invalid_url:"链接无效", bad_scheme:"仅支持 http:// 和 https://", self_link:"无法缩短 b3.gg 链接", rate_limited:"已达今日上限，请明天再试", bad_json:"请求错误", network:"网络不可用", generic:"错误" } },
+      ar: { title:"b3.gg — اختصار الروابط", headline:"خدمة اختصار الروابط", sub:"ألصق رابطًا طويلًا واحصل على رابط قصير", placeholder:"https://example.com/عنوان/طويل", shorten:"اختصار", copy:"نسخ", copied:"تم النسخ", pNew:"إصدار جديد", pRecycle:"إعادة استخدام القديمة", stats:(n,p,ph)=>`تم إصدار ${n} من ${p} رمزًا قصيرًا · الوضع: ${ph}`, err:{ empty:"أدخل رابطًا", too_long:"الرابط طويل جدًا", invalid_url:"رابط غير صالح", bad_scheme:"فقط http:// و https://", self_link:"لا يمكن اختصار رابط b3.gg", rate_limited:"تم بلوغ الحد اليومي، حاول غدًا", bad_json:"خطأ في الطلب", network:"الشبكة غير متاحة", generic:"خطأ" } },
+      hi: { title:"b3.gg — लिंक शॉर्टनर", headline:"लिंक शॉर्टनर", sub:"लंबा लिंक पेस्ट करें — छोटा पाएं", placeholder:"https://example.com/लंबा/पता", shorten:"छोटा करें", copy:"कॉपी करें", copied:"कॉपी किया गया", pNew:"नए जारी करना", pRecycle:"पुराने पुनः उपयोग", stats:(n,p,ph)=>`${p} में से ${n} शॉर्ट कोड जारी · मोड: ${ph}`, err:{ empty:"लिंक दर्ज करें", too_long:"लिंक बहुत लंबा है", invalid_url:"अमान्य लिंक", bad_scheme:"केवल http:// और https://", self_link:"b3.gg लिंक को छोटा नहीं कर सकते", rate_limited:"आज की सीमा पूरी, कल पुनः प्रयास करें", bad_json:"अनुरोध त्रुटि", network:"नेटवर्क अनुपलब्ध", generic:"त्रुटि" } },
+      ja: { title:"b3.gg — URL短縮サービス", headline:"URL短縮サービス", sub:"長いリンクを貼り付けて短いリンクを取得", placeholder:"https://example.com/長い/アドレス", shorten:"短縮", copy:"コピー", copied:"コピーしました", pNew:"新規発行", pRecycle:"旧コード再利用", stats:(n,p,ph)=>`${p} 個中 ${n} 個の短縮コードを発行 · モード：${ph}`, err:{ empty:"リンクを入力してください", too_long:"リンクが長すぎます", invalid_url:"無効なリンク", bad_scheme:"http:// と https:// のみ", self_link:"b3.gg のリンクは短縮できません", rate_limited:"本日の上限に達しました。明日お試しください", bad_json:"リクエストエラー", network:"ネットワークに接続できません", generic:"エラー" } },
+    };
+
+    const lang = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const t = I18N[lang] || I18N.en;
+
     const f = document.getElementById('f');
     const u = document.getElementById('u');
     const b = document.getElementById('b');
@@ -123,15 +140,14 @@
     const copy = document.getElementById('copy');
     const stats = document.getElementById('stats');
 
-    const ERRORS = {
-      empty: 'Введите ссылку',
-      too_long: 'Ссылка слишком длинная',
-      invalid_url: 'Некорректная ссылка',
-      bad_scheme: 'Только http:// и https://',
-      self_link: 'Нельзя сокращать ссылку на b3.gg',
-      rate_limited: 'Лимит на сегодня исчерпан, попробуйте завтра',
-      bad_json: 'Ошибка запроса',
-    };
+    document.documentElement.lang = lang in I18N ? lang : 'en';
+    if (lang === 'ar') document.documentElement.dir = 'rtl';
+    document.title = t.title;
+    document.getElementById('headline').textContent = t.headline;
+    document.getElementById('sub').textContent = t.sub;
+    u.placeholder = t.placeholder;
+    b.textContent = t.shorten;
+    copy.textContent = t.copy;
 
     f.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -145,7 +161,7 @@
           body: JSON.stringify({ url: u.value }),
         });
         const data = await r.json();
-        if (!r.ok) { err.textContent = ERRORS[data.error] || 'Ошибка'; }
+        if (!r.ok) { err.textContent = t.err[data.error] || t.err.generic; }
         else {
           link.href = data.short;
           link.textContent = data.short.replace(/^https?:\/\//, '');
@@ -153,24 +169,24 @@
           loadStats();
         }
       } catch (_) {
-        err.textContent = 'Сеть недоступна';
+        err.textContent = t.err.network;
       } finally {
-        b.disabled = false; b.textContent = 'Сократить';
+        b.disabled = false; b.textContent = t.shorten;
       }
     });
 
     copy.addEventListener('click', async () => {
       await navigator.clipboard.writeText(link.href);
-      copy.textContent = 'Скопировано';
-      setTimeout(() => (copy.textContent = 'Копировать'), 1500);
+      copy.textContent = t.copied;
+      setTimeout(() => (copy.textContent = t.copy), 1500);
     });
 
     async function loadStats() {
       try {
         const r = await fetch('/api/stats');
         const s = await r.json();
-        const phase = s.phase === 'recycling' ? 'переработка старых кодов' : 'выдача новых';
-        stats.textContent = `Выдано ${s.issued} из ${s.pool} коротких кодов · режим: ${phase}`;
+        const phase = s.phase === 'recycling' ? t.pRecycle : t.pNew;
+        stats.textContent = t.stats(s.issued, s.pool, phase);
       } catch (_) {}
     }
     loadStats();
