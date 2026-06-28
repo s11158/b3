@@ -3,40 +3,137 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>b3.gg</title>
+  <title>b3.gg — сокращалка ссылок</title>
   <style>
-    :root { color-scheme: light dark; }
+    :root { color-scheme: dark; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh;
       display: grid;
       place-items: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at 50% 30%, #1a1a2e, #0d0d18);
+      background: radial-gradient(circle at 50% 25%, #1a1a2e, #0d0d18);
       color: #f5f5f7;
-      text-align: center;
       padding: 24px;
     }
-    .wrap { max-width: 520px; }
-    h1 {
-      font-size: clamp(64px, 18vw, 140px);
+    .card { width: 100%; max-width: 520px; text-align: center; }
+    .logo {
+      font-size: clamp(48px, 12vw, 84px);
       font-weight: 800;
       letter-spacing: -0.04em;
-      background: linear-gradient(135deg, #7c5cff, #29d0ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
       line-height: 1.25;
       padding-bottom: 0.12em;
+      background: linear-gradient(135deg, #7c5cff, #29d0ff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    p { margin-top: 16px; font-size: 18px; opacity: 0.7; }
-    .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#29d0ff; margin-right:8px; vertical-align: middle; }
+    .sub { opacity: .6; margin-bottom: 28px; font-size: 15px; }
+    .row { display: flex; gap: 10px; }
+    input[type=url] {
+      flex: 1; min-width: 0;
+      padding: 14px 16px; font-size: 16px;
+      border: 1px solid #2a2a40; border-radius: 12px;
+      background: #15151f; color: #f5f5f7; outline: none;
+    }
+    input[type=url]:focus { border-color: #7c5cff; }
+    button {
+      padding: 14px 20px; font-size: 16px; font-weight: 600;
+      border: 0; border-radius: 12px; cursor: pointer; white-space: nowrap;
+      background: linear-gradient(135deg, #7c5cff, #29d0ff); color: #0d0d18;
+    }
+    button:disabled { opacity: .5; cursor: default; }
+    .result {
+      margin-top: 22px; padding: 18px; border-radius: 14px;
+      background: #15151f; border: 1px solid #2a2a40;
+      display: none; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .result.show { display: flex; }
+    .result a { color: #29d0ff; font-size: 20px; font-weight: 700; text-decoration: none; word-break: break-all; }
+    .copy { background: #2a2a40; color: #f5f5f7; padding: 10px 14px; font-size: 14px; }
+    .err { color: #ff6b6b; margin-top: 16px; min-height: 20px; font-size: 14px; }
+    .stats { margin-top: 26px; font-size: 13px; opacity: .45; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>b3.gg</h1>
-    <p><span class="dot"></span>Скоро здесь будет проект</p>
+  <div class="card">
+    <div class="logo">b3.gg</div>
+    <div class="sub">Вставь любую ссылку — получишь короткую</div>
+
+    <form id="f" class="row">
+      <input id="u" type="url" placeholder="https://example.com/очень/длинный/адрес" required />
+      <button id="b" type="submit">Сократить</button>
+    </form>
+
+    <div class="err" id="err"></div>
+
+    <div class="result" id="res">
+      <a id="link" href="#" target="_blank" rel="noopener"></a>
+      <button class="copy" id="copy" type="button">Копировать</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
   </div>
+
+  <script>
+    const f = document.getElementById('f');
+    const u = document.getElementById('u');
+    const b = document.getElementById('b');
+    const err = document.getElementById('err');
+    const res = document.getElementById('res');
+    const link = document.getElementById('link');
+    const copy = document.getElementById('copy');
+    const stats = document.getElementById('stats');
+
+    const ERRORS = {
+      empty: 'Введите ссылку',
+      too_long: 'Ссылка слишком длинная',
+      invalid_url: 'Некорректная ссылка',
+      bad_scheme: 'Только http:// и https://',
+      self_link: 'Нельзя сокращать ссылку на b3.gg',
+      rate_limited: 'Лимит на сегодня исчерпан, попробуйте завтра',
+      bad_json: 'Ошибка запроса',
+    };
+
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      res.classList.remove('show');
+      b.disabled = true; b.textContent = '...';
+      try {
+        const r = await fetch('/api/shorten', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: u.value }),
+        });
+        const data = await r.json();
+        if (!r.ok) { err.textContent = ERRORS[data.error] || 'Ошибка'; }
+        else {
+          link.href = data.short;
+          link.textContent = data.short.replace(/^https?:\/\//, '');
+          res.classList.add('show');
+          loadStats();
+        }
+      } catch (_) {
+        err.textContent = 'Сеть недоступна';
+      } finally {
+        b.disabled = false; b.textContent = 'Сократить';
+      }
+    });
+
+    copy.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(link.href);
+      copy.textContent = 'Скопировано';
+      setTimeout(() => (copy.textContent = 'Копировать'), 1500);
+    });
+
+    async function loadStats() {
+      try {
+        const r = await fetch('/api/stats');
+        const s = await r.json();
+        const phase = s.phase === 'recycling' ? 'переработка старых кодов' : 'выдача новых';
+        stats.textContent = `Выдано ${s.issued} из ${s.pool} коротких кодов · режим: ${phase}`;
+      } catch (_) {}
+    }
+    loadStats();
+  </script>
 </body>
 </html>
