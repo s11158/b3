@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What? — Voice Translate Bot for WhatsApp</title>
+  <meta name="description" content="Forward any voice message, video or text on WhatsApp — get instant transcription and translation in your language. Free." />
+  <meta property="og:title" content="What? — Voice Translate Bot" />
+  <meta property="og:description" content="Forward a voice message — get it transcribed & translated. Right inside WhatsApp. Free." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --indigo: #2E1A5E; --indigo-2: #241447;
+      --teal: #00A896; --teal-soft: #7fd9cf;
+      --ink: #f6f5fb; --muted: #b9b3d1;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Manrope", -apple-system, "Segoe UI", sans-serif;
+      background: linear-gradient(165deg, var(--indigo-2) 0%, var(--indigo) 45%, #0d5f56 100%);
+      color: var(--ink); min-height: 100vh;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 80px; }
+    header { display: flex; align-items: center; gap: 14px; margin-bottom: 64px; }
+    .mark {
+      width: 46px; height: 46px; border-radius: 12px; flex: none;
+      background: linear-gradient(160deg, var(--indigo) 20%, var(--teal));
+      display: grid; place-items: center; font-family: "Sora"; font-weight: 800; font-size: 13px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.35);
+    }
+    .mark span { background: #fff; color: var(--indigo); border-radius: 8px; padding: 3px 6px; }
+    header b { font-family: "Sora"; font-size: 18px; letter-spacing: .01em; }
+    header small { color: var(--muted); display: block; font-size: 12px; }
+
+    h1 {
+      font-family: "Sora"; font-weight: 800; letter-spacing: -0.03em;
+      font-size: clamp(34px, 6vw, 58px); line-height: 1.08; max-width: 14ch;
+    }
+    h1 em { font-style: normal; color: var(--teal-soft); }
+    .sub { margin: 22px 0 8px; font-size: clamp(16px, 2.4vw, 19px); color: var(--muted); max-width: 52ch; line-height: 1.6; }
+    .sub-ru { font-size: 14px; color: #8f88ad; max-width: 60ch; line-height: 1.6; }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 34px;
+      background: #25D366; color: #073d1f; text-decoration: none;
+      font-weight: 800; font-size: 17px; padding: 16px 28px; border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(37,211,102,.35); transition: transform .15s ease; }
+    .cta:hover { transform: translateY(-2px); }
+    .cta svg { width: 22px; height: 22px; }
+    .cta-note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+
+    .chat { margin: 72px 0 0; display: grid; gap: 10px; max-width: 460px; }
+    .msg { padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.5; width: fit-content; max-width: 100%; }
+    .them { background: rgba(255,255,255,.10); border-top-left-radius: 4px; }
+    .me { background: #d9fdd3; color: #111; margin-left: auto; border-top-right-radius: 4px; }
+    .wave { letter-spacing: 2px; color: var(--teal-soft); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 72px; }
+    .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 18px; padding: 22px; }
+    .card h3 { font-family: "Sora"; font-size: 16px; margin-bottom: 8px; }
+    .card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+    .card .ico { font-size: 26px; display: block; margin-bottom: 12px; }
+
+    footer { margin-top: 80px; font-size: 13px; color: #8f88ad; line-height: 1.7; }
+    footer a { color: var(--teal-soft); text-decoration: none; }
+    @media (max-width: 560px) { .chat { margin-top: 56px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="mark"><span>What?</span></div>
+      <div><b>What? Voice Translate Bot</b><small>for WhatsApp · free</small></div>
+    </header>
+
+    <h1>Don't get it?<br />Just forward it to <em>What?</em></h1>
+    <p class="sub">Voice message in a language you don't speak? Forward it to our WhatsApp bot —
+      get the transcript and a translation in your language in seconds. Works with voice notes,
+      videos and text. No app, no sign-up, free.</p>
+    <p class="sub-ru">Пересылай непонятные голосовые, видео и тексты боту в WhatsApp — он расшифрует речь
+      и переведёт на твой язык за пару секунд. Без приложений и регистрации, бесплатно.</p>
+
+    <a class="cta" href="https://wa.me/447529450098?text=Hi" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.8 1.3-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .4-.1.2-.1.3-.3.5l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .7-.2 1.1Z"/></svg>
+      Try it on WhatsApp
+    </a>
+    <div class="cta-note">+44 7529 450098 · opens a chat, just send a voice message</div>
+
+    <div class="chat" aria-hidden="true">
+      <div class="msg them">🎤 <span class="wave">▂▅▇▅▂▃▆▃▂</span> 0:17</div>
+      <div class="msg me">🎧 Recognized (Spanish):<br />“Nos vemos mañana a las nueve en la entrada norte.”<br /><br />🌐 Translation:<br />“See you tomorrow at nine by the north entrance.”</div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><span class="ico">🎙️</span><h3>Voice → text → your language</h3>
+        <p>Whisper-grade speech recognition, then translation into any of 10 languages you pick once.</p></div>
+      <div class="card"><span class="ico">🎬</span><h3>Videos too</h3>
+        <p>Video messages, rounds and files — the bot pulls the audio track and translates the speech.</p></div>
+      <div class="card"><span class="ico">⚡</span><h3>Right inside WhatsApp</h3>
+        <p>No app to install, nothing to learn. Forward a message, get the answer in the same chat.</p></div>
+      <div class="card"><span class="ico">🆓</span><h3>Free</h3>
+        <p>Send a message, pick your language once, use it. That's the whole onboarding.</p></div>
+    </div>
+
+    <footer>
+      Messages are processed automatically only to provide transcription and translation.<br />
+      A <a href="https://b3.gg">b3.gg</a> project.
+    </footer>
+  </div>
+</body>
+</html>
