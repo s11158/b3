@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { width:1200px; height:630px; overflow:hidden; font-family:"Manrope",sans-serif; color:#F6F5FB;
+    background: radial-gradient(900px 600px at 88% -10%, rgba(0,168,150,.35), transparent 60%),
+                linear-gradient(160deg, #1D1040 0%, #2E1A5E 48%, #0d5f56 100%);
+    display:flex; align-items:center; padding:0 80px; gap:60px; }
+  .left { flex:1; margin-top:70px; }
+  h1 { font-family:"Sora"; font-weight:800; font-size:72px; letter-spacing:-0.03em; line-height:1.05; }
+  h1 em { font-style:normal; color:#7FD9CF; }
+  p { margin-top:26px; font-size:28px; font-weight:600; color:#C9C3E0; line-height:1.45; max-width:22ch; }
+  .badge { display:inline-flex; align-items:center; gap:12px; margin-top:34px; background:#25D366;
+    color:#073d1f; font-weight:800; font-size:26px; padding:16px 30px; border-radius:999px; }
+  .brand { position:absolute; top:44px; left:80px; display:flex; align-items:center; gap:14px; }
+  .brand img { width:52px; height:52px; border-radius:14px; }
+  .brand b { font-family:"Sora"; font-size:22px; }
+  .bubble { width:400px; background:#fff; color:#2E1A5E; border-radius:36px; border-bottom-left-radius:6px;
+    padding:44px 40px; box-shadow:0 30px 70px rgba(0,0,0,.45); }
+  .bubble .what { font-family:"Sora"; font-weight:800; font-size:64px; }
+  .bars { display:flex; align-items:flex-end; gap:7px; height:80px; margin-top:26px; }
+  .bars i { width:12px; border-radius:6px; background:linear-gradient(180deg,#00A896,#2E1A5E); display:block; }
+</style></head>
+<body>
+  <div class="brand"><img src="avatar.png"><b>What? · Voice Translate Bot</b></div>
+  <div class="left">
+    <h1>Don't get it?<br>Forward it to <em>What?</em></h1>
+    <p>Voice → transcript → translation. Right inside WhatsApp.</p>
+    <div class="badge">Free · wa.me → What?</div>
+  </div>
+  <div class="bubble">
+    <div class="what">What?</div>
+    <div class="bars">
+      <i style="height:30%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:65%"></i>
+      <i style="height:100%"></i><i style="height:45%"></i><i style="height:75%"></i><i style="height:35%"></i>
+      <i style="height:60%"></i><i style="height:85%"></i><i style="height:40%"></i><i style="height:25%"></i>
+    </div>
+  </div>
+</body></html>
