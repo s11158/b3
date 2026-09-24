@@ -1,224 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-site-verification" content="7flZF5K67EgvJ-UvLkDg_3y4ZJ6TCbWM6lH0TsIRzRM" />
-  <meta name="yandex-verification" content="d6c9a3af4de75be7" />
-  <title>b3.gg — ultra-short links</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600&family=Lato:wght@900&family=Manrope:wght@500;700;800&family=Pacifico&family=Source+Sans+3:wght@900&display=swap" rel="stylesheet" />
-  <style>
-    :root { color-scheme: dark; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at 50% 20%, #1a1a2e, #0d0d18);
-      color: #f5f5f7;
-      padding: 48px 24px;
-    }
-    .card { width: 100%; max-width: 560px; text-align: center; }
-
-    .logo {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: clamp(72px, 17vw, 132px);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 1.1;
-      padding-bottom: 0.1em;
-      background: linear-gradient(135deg, #7c5cff, #29d0ff);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .logo .gg-slot {
-      display: inline-block; position: relative;
-      width: 2em; height: 0.74em; vertical-align: baseline;
-    }
-    .logo .gg {
-      position: absolute; left: 0; top: 0; line-height: 1; white-space: nowrap;
-      padding: 0 0.35em 0.55em 0.4em; margin-left: -0.4em;
-      background: linear-gradient(135deg, #7c5cff, #29d0ff);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; color: transparent;
-      transform-origin: left top;
-      transition: opacity .3s ease-in-out, transform .3s ease-in-out, filter .3s ease-in-out;
-    }
-    .headline {
-      font-family: 'Manrope', sans-serif;
-      font-size: clamp(28px, 6vw, 44px);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-top: 4px;
-    }
-    .sub { opacity: .6; margin-top: 18px; font-size: 18px; line-height: 1.5; }
-    .sub b { color: #29d0ff; font-weight: 700; }
-
-    .guarantee {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 22px; padding: 10px 18px; border-radius: 999px;
-      background: rgba(41,208,255,.10);
-      border: 1px solid rgba(41,208,255,.35);
-      color: #29d0ff; font-size: 14px; font-weight: 700;
-    }
-    .guarantee::before { content: "✓"; font-size: 15px; }
-
-    .row { display: flex; gap: 12px; margin-top: 40px; }
-    input[type=url] {
-      flex: 1; min-width: 0;
-      padding: 15px 16px; font-size: 16px;
-      border: 1px solid #2a2a40; border-radius: 12px;
-      background: #15151f; color: #f5f5f7; outline: none;
-    }
-    input[type=url]:focus { border-color: #7c5cff; }
-    button {
-      font-family: 'Manrope', sans-serif;
-      padding: 15px 22px; font-size: 16px; font-weight: 700;
-      border: 0; border-radius: 12px; cursor: pointer; white-space: nowrap;
-      background: linear-gradient(135deg, #7c5cff, #29d0ff); color: #0d0d18;
-    }
-    button:disabled { opacity: .5; cursor: default; }
-
-    .err { color: #ff6b6b; margin-top: 18px; min-height: 20px; font-size: 14px; }
-    .result {
-      margin-top: 24px; padding: 18px 20px; border-radius: 14px;
-      background: #15151f; border: 1px solid #2a2a40;
-      display: none; align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .result.show { display: flex; }
-    .result a { color: #29d0ff; font-size: 20px; font-weight: 700; text-decoration: none; word-break: break-all; }
-    .copy { background: #2a2a40; color: #f5f5f7; padding: 10px 14px; font-size: 14px; }
-    .stats { margin-top: 40px; font-size: 13px; opacity: .4; }
-  </style>
-  <script defer src="https://tlnt.ae/a.js" data-ym="113012342" data-name="b3.gg"></script>
-</head>
-<body>
-  <div class="card">
-    <div class="logo">b3.<span class="gg-slot"><span class="gg" id="gg">gg</span></span></div>
-    <h1 class="headline" id="headline">Ultra-short links</h1>
-    <p class="sub" id="sub">Not just short — only 1–2 characters</p>
-    <div class="guarantee" id="guarantee">Guaranteed 1–2 character code — couldn't be shorter</div>
-
-    <form id="f" class="row">
-      <input id="u" type="url" placeholder="https://example.com/long/address" required />
-      <button id="b" type="submit">Shorten</button>
-    </form>
-
-    <div class="err" id="err"></div>
-
-    <div class="result" id="res">
-      <a id="link" href="#" target="_blank" rel="noopener"></a>
-      <button class="copy" id="copy" type="button">Copy</button>
-    </div>
-
-    <div class="stats" id="stats"></div>
-  </div>
-
-  <script>
-    const I18N = {
-      en: { title:"b3.gg — ultra-short links", headline:"Ultra-short links", sub:"Not just short — <b>only 1–2 characters</b>", guar:"Guaranteed 1–2 character code — couldn't be shorter", placeholder:"https://example.com/long/address", shorten:"Shorten", copy:"Copy", copied:"Copied", pNew:"issuing new", pRecycle:"recycling old codes", stats:(n,p,ph)=>`Issued ${n} of ${p} short codes · mode: ${ph}`, err:{ empty:"Enter a link", too_long:"Link is too long", invalid_url:"Invalid link", bad_scheme:"Only http:// and https://", self_link:"Can't shorten a b3.gg link", rate_limited:"Daily limit reached, try again tomorrow", bad_json:"Request error", network:"Network unavailable", generic:"Error" } },
-      ru: { title:"b3.gg — ультра-короткие ссылки", headline:"Ультра-короткие ссылки", sub:"Не просто короткая — <b>всего 1–2 символа</b>", guar:"Гарантируем код из 1–2 символов — короче некуда", placeholder:"https://example.com/длинный/адрес", shorten:"Сократить", copy:"Копировать", copied:"Скопировано", pNew:"выдача новых", pRecycle:"переработка старых кодов", stats:(n,p,ph)=>`Выдано ${n} из ${p} коротких кодов · режим: ${ph}`, err:{ empty:"Введите ссылку", too_long:"Ссылка слишком длинная", invalid_url:"Некорректная ссылка", bad_scheme:"Только http:// и https://", self_link:"Нельзя сокращать ссылку на b3.gg", rate_limited:"Лимит на сегодня исчерпан, попробуйте завтра", bad_json:"Ошибка запроса", network:"Сеть недоступна", generic:"Ошибка" } },
-      es: { title:"b3.gg — enlaces ultracortos", headline:"Enlaces ultracortos", sub:"No solo cortos — <b>solo 1–2 caracteres</b>", guar:"Garantizamos un código de 1–2 caracteres — imposible más corto", placeholder:"https://ejemplo.com/direccion/larga", shorten:"Acortar", copy:"Copiar", copied:"Copiado", pNew:"emisión de nuevos", pRecycle:"reutilización de antiguos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos cortos · modo: ${ph}`, err:{ empty:"Introduce un enlace", too_long:"El enlace es demasiado largo", invalid_url:"Enlace no válido", bad_scheme:"Solo http:// y https://", self_link:"No se puede acortar un enlace de b3.gg", rate_limited:"Límite diario alcanzado, inténtalo mañana", bad_json:"Error de solicitud", network:"Red no disponible", generic:"Error" } },
-      de: { title:"b3.gg — ultrakurze Links", headline:"Ultrakurze Links", sub:"Nicht nur kurz — <b>nur 1–2 Zeichen</b>", guar:"Garantiert 1–2 Zeichen langer Code — kürzer geht's nicht", placeholder:"https://beispiel.com/lange/adresse", shorten:"Kürzen", copy:"Kopieren", copied:"Kopiert", pNew:"neue Vergabe", pRecycle:"Wiederverwendung alter Codes", stats:(n,p,ph)=>`${n} von ${p} Kurzcodes vergeben · Modus: ${ph}`, err:{ empty:"Link eingeben", too_long:"Link ist zu lang", invalid_url:"Ungültiger Link", bad_scheme:"Nur http:// und https://", self_link:"b3.gg-Link kann nicht gekürzt werden", rate_limited:"Tageslimit erreicht, morgen erneut versuchen", bad_json:"Anfragefehler", network:"Netzwerk nicht verfügbar", generic:"Fehler" } },
-      fr: { title:"b3.gg — liens ultra-courts", headline:"Liens ultra-courts", sub:"Pas seulement court — <b>1 à 2 caractères</b>", guar:"Code de 1 à 2 caractères garanti — impossible plus court", placeholder:"https://exemple.com/adresse/longue", shorten:"Raccourcir", copy:"Copier", copied:"Copié", pNew:"attribution de nouveaux", pRecycle:"réutilisation des anciens", stats:(n,p,ph)=>`${n} sur ${p} codes courts attribués · mode : ${ph}`, err:{ empty:"Entrez un lien", too_long:"Le lien est trop long", invalid_url:"Lien invalide", bad_scheme:"Uniquement http:// et https://", self_link:"Impossible de raccourcir un lien b3.gg", rate_limited:"Limite quotidienne atteinte, réessayez demain", bad_json:"Erreur de requête", network:"Réseau indisponible", generic:"Erreur" } },
-      pt: { title:"b3.gg — links ultracurtos", headline:"Links ultracurtos", sub:"Não só curto — <b>apenas 1–2 caracteres</b>", guar:"Garantimos um código de 1–2 caracteres — impossível mais curto", placeholder:"https://exemplo.com/endereco/longo", shorten:"Encurtar", copy:"Copiar", copied:"Copiado", pNew:"emissão de novos", pRecycle:"reutilização de antigos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos curtos · modo: ${ph}`, err:{ empty:"Insira um link", too_long:"O link é muito longo", invalid_url:"Link inválido", bad_scheme:"Apenas http:// e https://", self_link:"Não é possível encurtar um link b3.gg", rate_limited:"Limite diário atingido, tente amanhã", bad_json:"Erro na solicitação", network:"Rede indisponível", generic:"Erro" } },
-      zh: { title:"b3.gg — 超短链接", headline:"超短链接", sub:"不只是短 — <b>仅 1–2 个字符</b>", guar:"保证 1–2 个字符的代码 — 短到极致", placeholder:"https://example.com/很长的/地址", shorten:"缩短", copy:"复制", copied:"已复制", pNew:"分配新码", pRecycle:"回收旧码", stats:(n,p,ph)=>`已分配 ${n} / ${p} 个短码 · 模式：${ph}`, err:{ empty:"请输入链接", too_long:"链接太长", invalid_url:"链接无效", bad_scheme:"仅支持 http:// 和 https://", self_link:"无法缩短 b3.gg 链接", rate_limited:"已达今日上限，请明天再试", bad_json:"请求错误", network:"网络不可用", generic:"错误" } },
-      ar: { title:"b3.gg — روابط فائقة القصر", headline:"روابط فائقة القصر", sub:"ليست قصيرة فحسب — <b>حرف أو حرفان فقط</b>", guar:"نضمن رمزًا من حرف أو حرفين — لا شيء أقصر", placeholder:"https://example.com/عنوان/طويل", shorten:"اختصار", copy:"نسخ", copied:"تم النسخ", pNew:"إصدار جديد", pRecycle:"إعادة استخدام القديمة", stats:(n,p,ph)=>`تم إصدار ${n} من ${p} رمزًا قصيرًا · الوضع: ${ph}`, err:{ empty:"أدخل رابطًا", too_long:"الرابط طويل جدًا", invalid_url:"رابط غير صالح", bad_scheme:"فقط http:// و https://", self_link:"لا يمكن اختصار رابط b3.gg", rate_limited:"تم بلوغ الحد اليومي، حاول غدًا", bad_json:"خطأ في الطلب", network:"الشبكة غير متاحة", generic:"خطأ" } },
-      hi: { title:"b3.gg — अल्ट्रा-शॉर्ट लिंक", headline:"अल्ट्रा-शॉर्ट लिंक", sub:"सिर्फ छोटा नहीं — <b>केवल 1–2 अक्षर</b>", guar:"1–2 अक्षर का कोड गारंटीड — इससे छोटा संभव नहीं", placeholder:"https://example.com/लंबा/पता", shorten:"छोटा करें", copy:"कॉपी करें", copied:"कॉपी किया गया", pNew:"नए जारी करना", pRecycle:"पुराने पुनः उपयोग", stats:(n,p,ph)=>`${p} में से ${n} शॉर्ट कोड जारी · मोड: ${ph}`, err:{ empty:"लिंक दर्ज करें", too_long:"लिंक बहुत लंबा है", invalid_url:"अमान्य लिंक", bad_scheme:"केवल http:// और https://", self_link:"b3.gg लिंक को छोटा नहीं कर सकते", rate_limited:"आज की सीमा पूरी, कल पुनः प्रयास करें", bad_json:"अनुरोध त्रुटि", network:"नेटवर्क अनुपलब्ध", generic:"त्रुटि" } },
-      ja: { title:"b3.gg — 超短縮リンク", headline:"超短縮リンク", sub:"ただ短いだけじゃない — <b>わずか1〜2文字</b>", guar:"1〜2文字のコードを保証 — これ以上は短くできない", placeholder:"https://example.com/長い/アドレス", shorten:"短縮", copy:"コピー", copied:"コピーしました", pNew:"新規発行", pRecycle:"旧コード再利用", stats:(n,p,ph)=>`${p} 個中 ${n} 個の短縮コードを発行 · モード：${ph}`, err:{ empty:"リンクを入力してください", too_long:"リンクが長すぎます", invalid_url:"無効なリンク", bad_scheme:"http:// と https:// のみ", self_link:"b3.gg のリンクは短縮できません", rate_limited:"本日の上限に達しました。明日お試しください", bad_json:"リクエストエラー", network:"ネットワークに接続できません", generic:"エラー" } },
-    };
-
-    const lang = (navigator.language || 'en').slice(0, 2).toLowerCase();
-    const t = I18N[lang] || I18N.en;
-
-    const f = document.getElementById('f');
-    const u = document.getElementById('u');
-    const b = document.getElementById('b');
-    const err = document.getElementById('err');
-    const res = document.getElementById('res');
-    const link = document.getElementById('link');
-    const copy = document.getElementById('copy');
-    const stats = document.getElementById('stats');
-
-    document.documentElement.lang = lang in I18N ? lang : 'en';
-    if (lang === 'ar') document.documentElement.dir = 'rtl';
-    document.title = t.title;
-    document.getElementById('headline').textContent = t.headline;
-    document.getElementById('sub').innerHTML = t.sub;
-    document.getElementById('guarantee').textContent = t.guar;
-    u.placeholder = t.placeholder;
-    b.textContent = t.shorten;
-    copy.textContent = t.copy;
-
-    f.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      err.textContent = '';
-      res.classList.remove('show');
-      b.disabled = true; b.textContent = '...';
-      try {
-        const r = await fetch('/api/shorten', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: u.value }),
-        });
-        const data = await r.json();
-        if (!r.ok) { err.textContent = t.err[data.error] || t.err.generic; }
-        else {
-          link.href = data.short;
-          link.textContent = data.short.replace(/^https?:\/\//, '');
-          res.classList.add('show');
-          loadStats();
-        }
-      } catch (_) {
-        err.textContent = t.err.network;
-      } finally {
-        b.disabled = false; b.textContent = t.shorten;
-      }
-    });
-
-    copy.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(link.href);
-      copy.textContent = t.copied;
-      setTimeout(() => (copy.textContent = t.copy), 1500);
-    });
-
-    async function loadStats() {
-      try {
-        const r = await fetch('/api/stats');
-        const s = await r.json();
-        const phase = s.phase === 'recycling' ? t.pRecycle : t.pNew;
-        stats.textContent = t.stats(s.issued, s.pool, phase);
-      } catch (_) {}
-    }
-    loadStats();
-
-    const GG_FONTS = [
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      "'Lato', sans-serif",
-      "'Pacifico', cursive",
-      "'Fredoka', sans-serif",
-      "'Source Sans 3', sans-serif",
-      "'Comfortaa', sans-serif",
-    ];
-    const gg = document.getElementById('gg');
-    if (gg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      let gi = 0;
-      setInterval(() => {
-        gi = (gi + 1) % GG_FONTS.length;
-        gg.style.opacity = '0.15';
-        gg.style.transform = 'scale(0.9)';
-        gg.style.filter = 'blur(2px)';
-        setTimeout(() => {
-          gg.style.fontFamily = GG_FONTS[gi];
-          gg.style.opacity = '1';
-          gg.style.transform = 'scale(1)';
-          gg.style.filter = 'blur(0)';
-        }, 300);
-      }, 2000);
-    }
-  </script>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="7flZF5K67EgvJ-UvLkDg_3y4ZJ6TCbWM6lH0TsIRzRM" />
+  <meta name="yandex-verification" content="d6c9a3af4de75be7" />
+  <title>b3.gg — ultra-short links</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600&family=Lato:wght@900&family=Manrope:wght@500;700;800&family=Pacifico&family=Source+Sans+3:wght@900&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #1a1a2e, #0d0d18);
+      color: #f5f5f7;
+      padding: 48px 24px;
+    }
+    .card { width: 100%; max-width: 560px; text-align: center; }
+
+    .logo {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: clamp(72px, 17vw, 132px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      padding-bottom: 0.1em;
+      background: linear-gradient(135deg, #7c5cff, #29d0ff);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .logo .gg-slot {
+      display: inline-block; position: relative;
+      width: 2em; height: 0.74em; vertical-align: baseline;
+    }
+    .logo .gg {
+      position: absolute; left: 0; top: 0; line-height: 1; white-space: nowrap;
+      padding: 0 0.35em 0.55em 0.4em; margin-left: -0.4em;
+      background: linear-gradient(135deg, #7c5cff, #29d0ff);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      transform-origin: left top;
+      transition: opacity .3s ease-in-out, transform .3s ease-in-out, filter .3s ease-in-out;
+    }
+    .headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-top: 4px;
+    }
+    .sub { opacity: .6; margin-top: 18px; font-size: 18px; line-height: 1.5; }
+    .sub b { color: #29d0ff; font-weight: 700; }
+
+    .guarantee {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 22px; padding: 10px 18px; border-radius: 999px;
+      background: rgba(41,208,255,.10);
+      border: 1px solid rgba(41,208,255,.35);
+      color: #29d0ff; font-size: 14px; font-weight: 700;
+    }
+    .guarantee::before { content: "✓"; font-size: 15px; }
+
+    .row { display: flex; gap: 12px; margin-top: 40px; }
+    input[type=url] {
+      flex: 1; min-width: 0;
+      padding: 15px 16px; font-size: 16px;
+      border: 1px solid #2a2a40; border-radius: 12px;
+      background: #15151f; color: #f5f5f7; outline: none;
+    }
+    input[type=url]:focus { border-color: #7c5cff; }
+    button {
+      font-family: 'Manrope', sans-serif;
+      padding: 15px 22px; font-size: 16px; font-weight: 700;
+      border: 0; border-radius: 12px; cursor: pointer; white-space: nowrap;
+      background: linear-gradient(135deg, #7c5cff, #29d0ff); color: #0d0d18;
+    }
+    button:disabled { opacity: .5; cursor: default; }
+
+    .err { color: #ff6b6b; margin-top: 18px; min-height: 20px; font-size: 14px; }
+    .result {
+      margin-top: 24px; padding: 18px 20px; border-radius: 14px;
+      background: #15151f; border: 1px solid #2a2a40;
+      display: none; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .result.show { display: flex; }
+    .result a { color: #29d0ff; font-size: 20px; font-weight: 700; text-decoration: none; word-break: break-all; }
+    .copy { background: #2a2a40; color: #f5f5f7; padding: 10px 14px; font-size: 14px; }
+    .stats { margin-top: 40px; font-size: 13px; opacity: .4; }
+  </style>
+  <script defer src="https://tlnt.ae/a.js" data-ym="113012342" data-ga="G-Y0SQFEM0Y7" data-name="b3.gg"></script>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">b3.<span class="gg-slot"><span class="gg" id="gg">gg</span></span></div>
+    <h1 class="headline" id="headline">Ultra-short links</h1>
+    <p class="sub" id="sub">Not just short — only 1–2 characters</p>
+    <div class="guarantee" id="guarantee">Guaranteed 1–2 character code — couldn't be shorter</div>
+
+    <form id="f" class="row">
+      <input id="u" type="url" placeholder="https://example.com/long/address" required />
+      <button id="b" type="submit">Shorten</button>
+    </form>
+
+    <div class="err" id="err"></div>
+
+    <div class="result" id="res">
+      <a id="link" href="#" target="_blank" rel="noopener"></a>
+      <button class="copy" id="copy" type="button">Copy</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <script>
+    const I18N = {
+      en: { title:"b3.gg — ultra-short links", headline:"Ultra-short links", sub:"Not just short — <b>only 1–2 characters</b>", guar:"Guaranteed 1–2 character code — couldn't be shorter", placeholder:"https://example.com/long/address", shorten:"Shorten", copy:"Copy", copied:"Copied", pNew:"issuing new", pRecycle:"recycling old codes", stats:(n,p,ph)=>`Issued ${n} of ${p} short codes · mode: ${ph}`, err:{ empty:"Enter a link", too_long:"Link is too long", invalid_url:"Invalid link", bad_scheme:"Only http:// and https://", self_link:"Can't shorten a b3.gg link", rate_limited:"Daily limit reached, try again tomorrow", bad_json:"Request error", network:"Network unavailable", generic:"Error" } },
+      ru: { title:"b3.gg — ультра-короткие ссылки", headline:"Ультра-короткие ссылки", sub:"Не просто короткая — <b>всего 1–2 символа</b>", guar:"Гарантируем код из 1–2 символов — короче некуда", placeholder:"https://example.com/длинный/адрес", shorten:"Сократить", copy:"Копировать", copied:"Скопировано", pNew:"выдача новых", pRecycle:"переработка старых кодов", stats:(n,p,ph)=>`Выдано ${n} из ${p} коротких кодов · режим: ${ph}`, err:{ empty:"Введите ссылку", too_long:"Ссылка слишком длинная", invalid_url:"Некорректная ссылка", bad_scheme:"Только http:// и https://", self_link:"Нельзя сокращать ссылку на b3.gg", rate_limited:"Лимит на сегодня исчерпан, попробуйте завтра", bad_json:"Ошибка запроса", network:"Сеть недоступна", generic:"Ошибка" } },
+      es: { title:"b3.gg — enlaces ultracortos", headline:"Enlaces ultracortos", sub:"No solo cortos — <b>solo 1–2 caracteres</b>", guar:"Garantizamos un código de 1–2 caracteres — imposible más corto", placeholder:"https://ejemplo.com/direccion/larga", shorten:"Acortar", copy:"Copiar", copied:"Copiado", pNew:"emisión de nuevos", pRecycle:"reutilización de antiguos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos cortos · modo: ${ph}`, err:{ empty:"Introduce un enlace", too_long:"El enlace es demasiado largo", invalid_url:"Enlace no válido", bad_scheme:"Solo http:// y https://", self_link:"No se puede acortar un enlace de b3.gg", rate_limited:"Límite diario alcanzado, inténtalo mañana", bad_json:"Error de solicitud", network:"Red no disponible", generic:"Error" } },
+      de: { title:"b3.gg — ultrakurze Links", headline:"Ultrakurze Links", sub:"Nicht nur kurz — <b>nur 1–2 Zeichen</b>", guar:"Garantiert 1–2 Zeichen langer Code — kürzer geht's nicht", placeholder:"https://beispiel.com/lange/adresse", shorten:"Kürzen", copy:"Kopieren", copied:"Kopiert", pNew:"neue Vergabe", pRecycle:"Wiederverwendung alter Codes", stats:(n,p,ph)=>`${n} von ${p} Kurzcodes vergeben · Modus: ${ph}`, err:{ empty:"Link eingeben", too_long:"Link ist zu lang", invalid_url:"Ungültiger Link", bad_scheme:"Nur http:// und https://", self_link:"b3.gg-Link kann nicht gekürzt werden", rate_limited:"Tageslimit erreicht, morgen erneut versuchen", bad_json:"Anfragefehler", network:"Netzwerk nicht verfügbar", generic:"Fehler" } },
+      fr: { title:"b3.gg — liens ultra-courts", headline:"Liens ultra-courts", sub:"Pas seulement court — <b>1 à 2 caractères</b>", guar:"Code de 1 à 2 caractères garanti — impossible plus court", placeholder:"https://exemple.com/adresse/longue", shorten:"Raccourcir", copy:"Copier", copied:"Copié", pNew:"attribution de nouveaux", pRecycle:"réutilisation des anciens", stats:(n,p,ph)=>`${n} sur ${p} codes courts attribués · mode : ${ph}`, err:{ empty:"Entrez un lien", too_long:"Le lien est trop long", invalid_url:"Lien invalide", bad_scheme:"Uniquement http:// et https://", self_link:"Impossible de raccourcir un lien b3.gg", rate_limited:"Limite quotidienne atteinte, réessayez demain", bad_json:"Erreur de requête", network:"Réseau indisponible", generic:"Erreur" } },
+      pt: { title:"b3.gg — links ultracurtos", headline:"Links ultracurtos", sub:"Não só curto — <b>apenas 1–2 caracteres</b>", guar:"Garantimos um código de 1–2 caracteres — impossível mais curto", placeholder:"https://exemplo.com/endereco/longo", shorten:"Encurtar", copy:"Copiar", copied:"Copiado", pNew:"emissão de novos", pRecycle:"reutilização de antigos", stats:(n,p,ph)=>`Emitidos ${n} de ${p} códigos curtos · modo: ${ph}`, err:{ empty:"Insira um link", too_long:"O link é muito longo", invalid_url:"Link inválido", bad_scheme:"Apenas http:// e https://", self_link:"Não é possível encurtar um link b3.gg", rate_limited:"Limite diário atingido, tente amanhã", bad_json:"Erro na solicitação", network:"Rede indisponível", generic:"Erro" } },
+      zh: { title:"b3.gg — 超短链接", headline:"超短链接", sub:"不只是短 — <b>仅 1–2 个字符</b>", guar:"保证 1–2 个字符的代码 — 短到极致", placeholder:"https://example.com/很长的/地址", shorten:"缩短", copy:"复制", copied:"已复制", pNew:"分配新码", pRecycle:"回收旧码", stats:(n,p,ph)=>`已分配 ${n} / ${p} 个短码 · 模式：${ph}`, err:{ empty:"请输入链接", too_long:"链接太长", invalid_url:"链接无效", bad_scheme:"仅支持 http:// 和 https://", self_link:"无法缩短 b3.gg 链接", rate_limited:"已达今日上限，请明天再试", bad_json:"请求错误", network:"网络不可用", generic:"错误" } },
+      ar: { title:"b3.gg — روابط فائقة القصر", headline:"روابط فائقة القصر", sub:"ليست قصيرة فحسب — <b>حرف أو حرفان فقط</b>", guar:"نضمن رمزًا من حرف أو حرفين — لا شيء أقصر", placeholder:"https://example.com/عنوان/طويل", shorten:"اختصار", copy:"نسخ", copied:"تم النسخ", pNew:"إصدار جديد", pRecycle:"إعادة استخدام القديمة", stats:(n,p,ph)=>`تم إصدار ${n} من ${p} رمزًا قصيرًا · الوضع: ${ph}`, err:{ empty:"أدخل رابطًا", too_long:"الرابط طويل جدًا", invalid_url:"رابط غير صالح", bad_scheme:"فقط http:// و https://", self_link:"لا يمكن اختصار رابط b3.gg", rate_limited:"تم بلوغ الحد اليومي، حاول غدًا", bad_json:"خطأ في الطلب", network:"الشبكة غير متاحة", generic:"خطأ" } },
+      hi: { title:"b3.gg — अल्ट्रा-शॉर्ट लिंक", headline:"अल्ट्रा-शॉर्ट लिंक", sub:"सिर्फ छोटा नहीं — <b>केवल 1–2 अक्षर</b>", guar:"1–2 अक्षर का कोड गारंटीड — इससे छोटा संभव नहीं", placeholder:"https://example.com/लंबा/पता", shorten:"छोटा करें", copy:"कॉपी करें", copied:"कॉपी किया गया", pNew:"नए जारी करना", pRecycle:"पुराने पुनः उपयोग", stats:(n,p,ph)=>`${p} में से ${n} शॉर्ट कोड जारी · मोड: ${ph}`, err:{ empty:"लिंक दर्ज करें", too_long:"लिंक बहुत लंबा है", invalid_url:"अमान्य लिंक", bad_scheme:"केवल http:// और https://", self_link:"b3.gg लिंक को छोटा नहीं कर सकते", rate_limited:"आज की सीमा पूरी, कल पुनः प्रयास करें", bad_json:"अनुरोध त्रुटि", network:"नेटवर्क अनुपलब्ध", generic:"त्रुटि" } },
+      ja: { title:"b3.gg — 超短縮リンク", headline:"超短縮リンク", sub:"ただ短いだけじゃない — <b>わずか1〜2文字</b>", guar:"1〜2文字のコードを保証 — これ以上は短くできない", placeholder:"https://example.com/長い/アドレス", shorten:"短縮", copy:"コピー", copied:"コピーしました", pNew:"新規発行", pRecycle:"旧コード再利用", stats:(n,p,ph)=>`${p} 個中 ${n} 個の短縮コードを発行 · モード：${ph}`, err:{ empty:"リンクを入力してください", too_long:"リンクが長すぎます", invalid_url:"無効なリンク", bad_scheme:"http:// と https:// のみ", self_link:"b3.gg のリンクは短縮できません", rate_limited:"本日の上限に達しました。明日お試しください", bad_json:"リクエストエラー", network:"ネットワークに接続できません", generic:"エラー" } },
+    };
+
+    const lang = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const t = I18N[lang] || I18N.en;
+
+    const f = document.getElementById('f');
+    const u = document.getElementById('u');
+    const b = document.getElementById('b');
+    const err = document.getElementById('err');
+    const res = document.getElementById('res');
+    const link = document.getElementById('link');
+    const copy = document.getElementById('copy');
+    const stats = document.getElementById('stats');
+
+    document.documentElement.lang = lang in I18N ? lang : 'en';
+    if (lang === 'ar') document.documentElement.dir = 'rtl';
+    document.title = t.title;
+    document.getElementById('headline').textContent = t.headline;
+    document.getElementById('sub').innerHTML = t.sub;
+    document.getElementById('guarantee').textContent = t.guar;
+    u.placeholder = t.placeholder;
+    b.textContent = t.shorten;
+    copy.textContent = t.copy;
+
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      res.classList.remove('show');
+      b.disabled = true; b.textContent = '...';
+      try {
+        const r = await fetch('/api/shorten', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: u.value }),
+        });
+        const data = await r.json();
+        if (!r.ok) { err.textContent = t.err[data.error] || t.err.generic; }
+        else {
+          link.href = data.short;
+          link.textContent = data.short.replace(/^https?:\/\//, '');
+          res.classList.add('show');
+          loadStats();
+        }
+      } catch (_) {
+        err.textContent = t.err.network;
+      } finally {
+        b.disabled = false; b.textContent = t.shorten;
+      }
+    });
+
+    copy.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(link.href);
+      copy.textContent = t.copied;
+      setTimeout(() => (copy.textContent = t.copy), 1500);
+    });
+
+    async function loadStats() {
+      try {
+        const r = await fetch('/api/stats');
+        const s = await r.json();
+        const phase = s.phase === 'recycling' ? t.pRecycle : t.pNew;
+        stats.textContent = t.stats(s.issued, s.pool, phase);
+      } catch (_) {}
+    }
+    loadStats();
+
+    const GG_FONTS = [
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "'Lato', sans-serif",
+      "'Pacifico', cursive",
+      "'Fredoka', sans-serif",
+      "'Source Sans 3', sans-serif",
+      "'Comfortaa', sans-serif",
+    ];
+    const gg = document.getElementById('gg');
+    if (gg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let gi = 0;
+      setInterval(() => {
+        gi = (gi + 1) % GG_FONTS.length;
+        gg.style.opacity = '0.15';
+        gg.style.transform = 'scale(0.9)';
+        gg.style.filter = 'blur(2px)';
+        setTimeout(() => {
+          gg.style.fontFamily = GG_FONTS[gi];
+          gg.style.opacity = '1';
+          gg.style.transform = 'scale(1)';
+          gg.style.filter = 'blur(0)';
+        }, 300);
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
