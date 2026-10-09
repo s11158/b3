@@ -1,0 +1,4 @@
+# Local wrangler state (dev cache, KV/D1 emulation, geo of the dev machine)
+.wrangler/
+.dev.vars
+node_modules/
